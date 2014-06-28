@@ -1,0 +1,19 @@
+language: python
+python:
+  - "2.7"
+  - "3.3"
+  - "3.4"
+env:
+  - DJANGO_VERSION=1.5.8
+  - DJANGO_VERSION=1.6.5
+# command to install requirements
+install: 
+ - pip install -r requirements.txt
+ - pip install -q Django==$DJANGO_VERSION
+# command to run tests
+script:
+ - pep8 urlarchivefield
+ - pyflakes urlarchivefield
+ - coverage run quicktest.py urlarchivefield
+after_success:
+  - coveralls
