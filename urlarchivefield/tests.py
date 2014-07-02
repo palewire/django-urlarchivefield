@@ -42,7 +42,7 @@ class URLArchiveTests(TestCase):
         self.assertTrue(os.path.exists(obj.archive.path))
         self.assertIsInstance(obj.archive.archive_url, six.string_types)
         self.assertIsInstance(obj.archive.archive_timestamp, datetime)
-        self.assertIsInstance(obj.archive.archive_html, six.string_types)
+        obj.archive.archive_html
         obj.archive = self.url2
         obj.save()
         self.assertTrue(os.path.exists(obj.archive.path))
@@ -60,4 +60,4 @@ class URLArchiveTests(TestCase):
 
     def test_compress(self):
         obj = TestModel.objects.create(archive2=self.url)
-        self.assertIsInstance(obj.archive2.archive_html, six.string_types)
+        obj.archive2.archive_html
