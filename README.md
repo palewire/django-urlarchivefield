@@ -3,6 +3,8 @@
 A custom Django model field that automatically archives a URL
 
 [![Build Status](https://travis-ci.org/pastpages/django-urlarchivefield.svg)](https://travis-ci.org/pastpages/django-urlarchivefield)
+[![PyPI version](https://badge.fury.io/py/django-urlarchivefield.png)](http://badge.fury.io/py/django-urlarchivefield)
+[![Coverage Status](https://coveralls.io/repos/pastpages/django-urlarchivefield/badge.png?branch=master)](https://coveralls.io/r/pastpages/django-urlarchivefield?branch=master)
 
 ## Getting started
 
