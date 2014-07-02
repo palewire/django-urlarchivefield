@@ -1,5 +1,5 @@
 [run]
-include = urlarchivefield/*
+include = urlarchivefield/fields.py
 
 [report]
 exclude_lines =
