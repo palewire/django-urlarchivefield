@@ -16,7 +16,7 @@ Add it to one of your models.
 
 ```python
 from django.db import models
-from .fields import URLArchiveField
+from urlarchivefield.fields import URLArchiveField
 
 class MyModel(models.Model):
     archive = URLArchiveField(upload_to="my_archive")
