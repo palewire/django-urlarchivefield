@@ -1,5 +1,6 @@
 #! -*- coding: utf-8 -*-
 import os
+import shutil
 import tempfile as tempfile
 from django.db import models
 from django.test import TestCase
@@ -21,18 +22,26 @@ class URLArchiveTests(TestCase):
         if not os.path.isdir(MEDIA_ROOT):
             os.makedirs(MEDIA_ROOT)
 
-#    @classmethod
-#    def tearDownClass(cls):
-#        shutil.rmtree(MEDIA_ROOT)
+    @classmethod
+    def tearDownClass(cls):
+        shutil.rmtree(MEDIA_ROOT)
 
     def setUp(self):
         self.url = "http://www.latimes.com"
+        self.url2 = "http://www.cnn.com"
 
     def test_archive(self):
         obj = TestModel.objects.create(archive=self.url)
-        obj.archive = "http://www.cnn.com"
-        obj.save()
-        obj.save()
-        obj.archive.path
+        self.assertTrue(os.path.exists(obj.archive.path))
         obj.archive.archive_url
         obj.archive.archive_timestamp
+        obj.archive = self.url2
+        obj.save()
+        self.assertTrue(os.path.exists(obj.archive.path))
+        obj.save()
+        obj.archive.delete()
+        with self.assertRaises(ValueError):
+            obj.archive.path
+
+
+

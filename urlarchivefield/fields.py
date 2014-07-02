@@ -77,8 +77,9 @@ class URLArchiveFileDescriptor(FileDescriptor):
             # Our only change to the standard routine is right here
             # where we mark any URLs that come in as uncommitted so
             # that they are archived when a save routine fires.
-            if 'http://' in file or 'https://' in file:
-                attr._committed = False
+            if file is not None:
+                if 'http://' in file or 'https://' in file:
+                    attr._committed = False
             instance.__dict__[self.field.name] = attr
 
         elif isinstance(file, File) and not isinstance(file, FieldFile):
