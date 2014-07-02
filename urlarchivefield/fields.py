@@ -1,5 +1,6 @@
 import os
 import six
+import gzip
 import logging
 import storytracker
 from django.db import models
@@ -16,17 +17,30 @@ class URLArchiveFieldFile(FieldFile):
     Overrides the standard FieldFile to download and archive URLs when they
     are provided.
     """
+    def __init__(self, instance, field, name):
+        super(FieldFile, self).__init__(None, name)
+        self.instance = instance
+        self.field = field
+        self.compress = field.compress
+        if self.compress:
+            self.file_ext = 'gz'
+        else:
+            self.file_ext = 'html'
+        self.storage = field.storage
+        self._committed = True
+
     def save(self, name, content, save=True):
         # Fetch the data from the URL
         url = name
-        content = ContentFile(storytracker.archive(url, compress=False))
+        content = ContentFile(storytracker.archive(url, compress=self.compress))
 
         # Set the filename using our namespacing scheme
-        archive_filename = "%s.html" % (
+        archive_filename = "%s.%s" % (
             storytracker.create_archive_filename(
                 name,
                 datetime.now()
             ),
+            self.file_ext
         )
         name = self.field.generate_filename(self.instance, archive_filename)
 
@@ -47,7 +61,7 @@ class URLArchiveFieldFile(FieldFile):
         """
         Parses archive namespace to return the URL that was saved.
         """
-        basename = os.path.basename(self.name).replace(".html", "")
+        basename = os.path.basename(self.name).replace(".%s" % self.file_ext, "")
         return storytracker.reverse_archive_filename(basename)[0]
     archive_url = property(_get_archive_url)
 
@@ -55,9 +69,22 @@ class URLArchiveFieldFile(FieldFile):
         """
         Parses archive namespace to return timestamp when URL was saved.
         """
-        name = os.path.basename(self.name).replace(".html", "")
+        name = os.path.basename(self.name).replace(".%s" % self.file_ext, "")
         return storytracker.reverse_archive_filename(name)[1]
     archive_timestamp = property(_get_archive_timestamp)
+
+    def _get_archive_html(self):
+        """
+        Returns the HTML in the file, decompressing from gzip if necessary.
+        """
+        if self.compress:
+            f = gzip.open(self.path, 'rb')
+            html = f.read()
+            f.close()
+            return html
+        else:
+            return self.read()
+    archive_html = property(_get_archive_html)
 
 
 class URLArchiveFileDescriptor(FileDescriptor):
@@ -102,6 +129,12 @@ class URLArchiveField(models.FileField):
     """
     attr_class = URLArchiveFieldFile
     descriptor_class = URLArchiveFileDescriptor
+
+    def __init__(self, *args, **kwargs):
+        self.compress = kwargs.pop("compress", True)
+        if not isinstance(self.compress, bool):
+            raise ValueError("compress kwarg must be set to a boolean value")
+        super(URLArchiveField, self).__init__(*args, **kwargs)
 
     def get_directory_name(self):
         return os.path.normpath(force_text(force_str(self.upload_to)))

@@ -14,6 +14,7 @@ MEDIA_ROOT = tempfile.mkdtemp()
 
 class TestModel(models.Model):
     archive = URLArchiveField(upload_to="test_archive")
+    archive2 = URLArchiveField(upload_to="test_archive", compress=False)
 
 
 @override_settings(MEDIA_ROOT=MEDIA_ROOT)
@@ -41,6 +42,7 @@ class URLArchiveTests(TestCase):
         self.assertTrue(os.path.exists(obj.archive.path))
         self.assertIsInstance(obj.archive.archive_url, six.string_types)
         self.assertIsInstance(obj.archive.archive_timestamp, datetime)
+        self.assertIsInstance(obj.archive.archive_html, six.string_types)
         obj.archive = self.url2
         obj.save()
         self.assertTrue(os.path.exists(obj.archive.path))
@@ -56,4 +58,6 @@ class URLArchiveTests(TestCase):
         obj.archive = None
         obj.save()
 
-
+    def test_compress(self):
+        obj = TestModel.objects.create(archive2=self.url)
+        self.assertIsInstance(obj.archive2.archive_html, six.string_types)
