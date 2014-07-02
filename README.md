@@ -48,6 +48,6 @@ class MyModel(models.Model):
     archive = URLArchiveField(upload_to="my_archive", compress=False)
 ```
 
-## Credits
+## Credits 
 
 This is a joint project of [PastPages.org](http://pastpages.org), The Reynolds Journalism Institute and the University of Missouri.
