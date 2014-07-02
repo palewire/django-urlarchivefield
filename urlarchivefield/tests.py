@@ -1,6 +1,5 @@
 #! -*- coding: utf-8 -*-
 import os
-import shutil
 import tempfile as tempfile
 from django.db import models
 from django.test import TestCase
@@ -33,5 +32,7 @@ class URLArchiveTests(TestCase):
         obj = TestModel.objects.create(archive=self.url)
         obj.archive = "http://www.cnn.com"
         obj.save()
-        obj.archive.save("http://www.cnn.com")
-        print obj.archive
+        obj.save()
+        obj.archive.path
+        obj.archive.archive_url
+        obj.archive.archive_timestamp
