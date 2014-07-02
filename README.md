@@ -22,7 +22,7 @@ class MyModel(models.Model):
     archive = URLArchiveField(upload_to="my_archive")
 ```
 
-Saving an URL's HTML content to your ``MEDIA_ROOT`` becomes this easy.
+Saving an URL's HTML content to your storage backend becomes this easy.
 
 ```python
 >>> obj = MyModel.objects.create(archive="http://www.latimes.com")
