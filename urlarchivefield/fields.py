@@ -32,7 +32,9 @@ class URLArchiveFieldFile(FieldFile):
     def save(self, name, content, save=True):
         # Fetch the data from the URL
         url = name
-        content = ContentFile(storytracker.archive(url, compress=self.compress))
+        content = ContentFile(
+            storytracker.archive(url, compress=self.compress)
+        )
 
         # Set the filename using our namespacing scheme
         archive_filename = "%s.%s" % (
@@ -61,7 +63,9 @@ class URLArchiveFieldFile(FieldFile):
         """
         Parses archive namespace to return the URL that was saved.
         """
-        basename = os.path.basename(self.name).replace(".%s" % self.file_ext, "")
+        basename = os.path.basename(self.name).replace(
+            ".%s" % self.file_ext, ""
+        )
         return storytracker.reverse_archive_filename(basename)[0]
     archive_url = property(_get_archive_url)
 

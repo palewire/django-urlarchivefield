@@ -2,6 +2,8 @@
 
 A custom Django model field that automatically archives a URL
 
+[![Build Status](https://travis-ci.org/pastpages/django-urlarchivefield.svg)](https://travis-ci.org/pastpages/django-urlarchivefield)
+
 ## Getting started
 
 Install this library from the Python Package Index.
