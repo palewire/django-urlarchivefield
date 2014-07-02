@@ -136,6 +136,8 @@ class URLArchiveField(models.FileField):
             raise ValueError("compress kwarg must be set to a boolean value")
         super(URLArchiveField, self).__init__(*args, **kwargs)
 
+    # def deconstruct goes here
+
     def get_directory_name(self):
         return os.path.normpath(force_text(force_str(self.upload_to)))
 

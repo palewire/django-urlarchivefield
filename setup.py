@@ -29,7 +29,7 @@ class TestCommand(Command):
 setup(
     name='django-urlarchivefield',
     version='0.0.1',
-    description='',
+    description='A custom Django model field that automatically archives a URL',
     author='Ben Welsh',
     author_email='ben.welsh@gmail.com',
     url='https://github.com/pastpages/django-urlarchivefield',
@@ -38,6 +38,7 @@ setup(
     install_requires=(
         'storytracker==0.0.1',
         'Django >= 1.5.8',
+        'six==1.7.2',
     ),
     cmdclass={'test': TestCommand}
 )
