@@ -14,6 +14,6 @@ install:
 script:
  - pep8 urlarchivefield
  - pyflakes urlarchivefield
- - coverage run quicktest.py urlarchivefield
+ - coverage run setup.py test
 after_success:
   - coveralls

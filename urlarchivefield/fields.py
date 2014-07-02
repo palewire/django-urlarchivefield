@@ -1,27 +1,61 @@
+import os
 import six
+import copy
+import logging
 import storytracker
 from django.db import models
+from datetime import datetime
+from django.core.files.base import ContentFile
+from django.db.models.fields.files import FieldFile
+from django.core.files.storage import default_storage
+from django.utils.encoding import force_str, force_text
+logger = logging.getLogger(__name__)
 
 
-class URLArchiveField(
-    six.with_metaclass(models.SubfieldBase, models.FileField)
-):
+class URLArchiveFieldFile(FieldFile):
+
+    def save(self, name, content, save=True):
+        print "SAVE!"
+
+        real_name = "%s.html" % (
+            storytracker.create_archive_filename(
+                url,
+                datetime.now()
+            ),
+        )
+        name = self.field.generate_filename(self.instance, real_name)
+        print name
+        self.name = self.storage.save(name, content)
+        setattr(self.instance, self.field.name, self.name)
+
+        # Update the filesize cache
+        self._size = content.size
+        self._committed = True
+
+        # Save the object because it has changed, unless save is False
+        if save:
+            self.instance.save()
+    save.alters_data = True
+
+    def _get_archive_url(self):
+        basename = os.path.basename(self.name).replace(".html", "")
+        return storytracker.reverse_archive_filename(basename)[0]
+    archive_url = property(_get_archive_url)
+
+    def _get_archive_timestamp(self):
+        name = os.path.basename(self.name).replace(".html", "")
+        return storytracker.reverse_archive_filename(name)[1]
+    archive_timestamp = property(_get_archive_timestamp)
+
+
+class URLArchiveField(models.FileField):
     """
     TK
     """
-    def pre_save(self, model_instance, add):
-        "Returns field's value just before saving."
-        file = super(FileField, self).pre_save(model_instance, add)
-        if file and not file._committed:
-            # Get the URL we're trying to save
-            # Fetch a file from that URL
-            # Save that URL to the database
-            # (But how does the the url itself and timestamp ever get stored
-            #   so it can be pulled off the object later when you access the
-            #   the object? Do we need to extend the file descriptor perhaps?
-            #   Also, how does it ingest a URL as the input?)
-            file.save(file.name, file, save=False)
-        return file
+    attr_class = URLArchiveFieldFile
+
+    def get_directory_name(self):
+        return os.path.normpath(force_text(force_str(self.upload_to)))
 
     def generate_filename(self, instance, filename):
-        return storytracker.create_archive_filename(url, timestamp)
+        return os.path.join(self.get_directory_name(), filename)
