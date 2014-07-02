@@ -5,11 +5,10 @@ beautifulsoup4==4.3.2
 coverage==3.7.1
 htmlmin==0.1.5
 pep8==1.5.7
-pyflakes==0.8.1
+pyflakes
 python-coveralls==2.4.2
 python-dateutil==2.2
 requests==2.3.0
 sh==1.09
 six==1.7.2
 storytracker==0.0.1
-wsgiref==0.1.2
