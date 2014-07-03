@@ -147,3 +147,18 @@ class URLArchiveField(models.FileField):
 
     def generate_filename(self, instance, filename):
         return os.path.join(self.get_directory_name(), filename)
+
+
+try:
+    from south.modelsinspector import add_introspection_rules
+    add_introspection_rules([
+        (
+            [URLArchiveField],
+            [],
+            {
+                "compress": ["compress", {"default": True}],
+            },
+        ),
+    ], ["^urlarchivefield\.fields\.URLArchiveField"])
+except ImportError:
+    pass
