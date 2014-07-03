@@ -61,3 +61,13 @@ class URLArchiveTests(TestCase):
     def test_compress(self):
         obj = TestModel.objects.create(archive2=self.url)
         obj.archive2.archive_html
+
+    def test_deconstruct(self):
+        try:
+            name, path, args, kwargs = URLArchiveField(
+                compress=False
+            ).deconstruct()
+        except NotImplementedError:
+            return
+        new_obj = URLArchiveField(*args, **kwargs)
+        self.assertEqual(obj.archive2, new_obj.archive2)
