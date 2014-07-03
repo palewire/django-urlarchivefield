@@ -28,6 +28,10 @@ Saving an URL's HTML content to your storage backend becomes this easy.
 
 ```python
 >>> obj = MyModel.objects.create(archive="http://www.latimes.com")
+>>> # You can do it this way too
+>>> obj = MyModel()
+>>> obj.archive = "http://www.latimes.com"
+>>> obj.save()
 ```
 
 The field attribute now has all the typical qualities of [a Django FileField](https://docs.djangoproject.com/en/dev/ref/models/fields/#filefield)
