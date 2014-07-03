@@ -142,7 +142,9 @@ class URLArchiveField(models.FileField):
 
     def deconstruct(self):
         try:
-            name, path, args, kwargs = super(URLArchiveField, self).deconstruct()
+            name, path, args, kwargs = super(
+                URLArchiveField, self
+            ).deconstruct()
         except AttributeError:
             raise NotImplementedError
         if self.compress is not True:

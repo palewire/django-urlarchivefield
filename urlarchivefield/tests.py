@@ -64,10 +64,9 @@ class URLArchiveTests(TestCase):
 
     def test_deconstruct(self):
         try:
-            name, path, args, kwargs = URLArchiveField(
-                compress=False
-            ).deconstruct()
+            field1 = URLArchiveField(compress=False)
+            name, path, args, kwargs = field1.deconstruct()
         except NotImplementedError:
             return
-        new_obj = URLArchiveField(*args, **kwargs)
-        self.assertEqual(obj.archive2, new_obj.archive2)
+        field2 = URLArchiveField(*args, **kwargs)
+        self.assertEqual(field1.archive2, field2.archive2)
