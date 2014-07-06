@@ -31,7 +31,10 @@ class URLArchiveTests(TestCase):
 
     def setUp(self):
         self.url = "http://www.latimes.com"
-        self.url2 = "http://www.cnn.com"
+        self.url2 = "http://www.cnn.com/"
+        self.long_url = "http://www.washingtonpost.com/investigations/us-\
+intelligence-mining-data-from-nine-us-internet-companies-in-broad-secret-\
+program/2013/06/06/3a0c0da8-cebf-11e2-8845-d970ccb04497_story.html"
 
     def assertIsInstance(self, value, type):
         self.assertTrue(isinstance(value, type))
@@ -57,6 +60,14 @@ class URLArchiveTests(TestCase):
             obj.archive.path
         obj.archive = None
         obj.save()
+
+    def test_long_url(self):
+        obj = TestModel.objects.create(archive=self.long_url)
+        self.assertFalse(obj.archive.name == self.long_url)
+        self.assertTrue(os.path.exists(obj.archive.path))
+        self.assertIsInstance(obj.archive.archive_url, six.string_types)
+        self.assertIsInstance(obj.archive.archive_timestamp, datetime)
+        obj.archive.archive_html
 
     def test_compress(self):
         obj = TestModel.objects.create(archive2=self.url)

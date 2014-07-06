@@ -5,10 +5,13 @@ beautifulsoup4==4.3.2
 coverage==3.7.1
 htmlmin==0.1.5
 pep8==1.5.7
+py==1.4.20
 pyflakes
 python-coveralls==2.4.2
 python-dateutil==2.2
 requests==2.3.0
 sh==1.09
 six==1.7.2
-storytracker==0.0.1
+storytracker==0.0.2
+tox==1.7.1
+virtualenv==1.11.6
