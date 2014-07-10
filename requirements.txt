@@ -12,6 +12,6 @@ python-dateutil==2.2
 requests==2.3.0
 sh==1.09
 six==1.7.2
-storytracker==0.0.2
+storytracker==0.0.4
 tox==1.7.1
 virtualenv==1.11.6
