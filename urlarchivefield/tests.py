@@ -2,7 +2,7 @@
 import os
 import six
 import shutil
-import tempfile as tempfile
+import tempfile
 from django.db import models
 from datetime import datetime
 from django.test import TestCase
