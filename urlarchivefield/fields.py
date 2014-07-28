@@ -32,9 +32,13 @@ class URLArchiveFieldFile(FieldFile):
     def save(self, name, content, save=True):
         # Fetch the data from the URL
         url = name
-        content = ContentFile(
-            storytracker.archive(url, compress=self.compress)
-        )
+        archive = storytracker.archive(url, compress=self.compress)
+
+        # Stuff it in a Django object for saving
+        if self.compress:
+            content = ContentFile(archive.gzip)
+        else:
+            content = ContentFile(archive.html)
 
         # Set the filename using our namespacing scheme
         archive_filename = "%s.%s" % (

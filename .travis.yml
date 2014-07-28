@@ -8,8 +8,9 @@ env:
   - DJANGO_VERSION=1.6.5
 # command to install requirements
 install: 
- - pip install -r requirements.txt
+ - pip install pyflakes pep8 coverage python-coveralls
  - pip install -q Django==$DJANGO_VERSION
+ - python setup.py install
 # command to run tests
 script:
  - pep8 urlarchivefield

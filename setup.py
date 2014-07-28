@@ -1,4 +1,4 @@
-from distutils.core import setup
+from setuptools import setup
 from distutils.core import Command
 
 
@@ -36,7 +36,7 @@ setup(
     license='MIT',
     packages=('urlarchivefield',),
     install_requires=(
-        'storytracker==0.0.4',
+        'storytracker==0.0.6',
         'six==1.7.2',
     ),
     cmdclass={'test': TestCommand}
