@@ -99,8 +99,8 @@ class URLArchiveFieldFile(FieldFile):
         Returns a storytracker object by rebuilding it out of the archive.
         """
         return storytracker.ArchivedURL(
-            self.archive_url, 
-            self.archive_timestamp, 
+            self.archive_url,
+            self.archive_timestamp,
             self.archive_html
         )
     archive_obj = property(_get_archive_obj)
