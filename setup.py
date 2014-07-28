@@ -28,7 +28,7 @@ class TestCommand(Command):
 
 setup(
     name='django-urlarchivefield',
-    version='0.0.7',
+    version='0.0.8',
     description='A custom Django model field that automatically archives a URL',
     author='Ben Welsh',
     author_email='ben.welsh@gmail.com',
