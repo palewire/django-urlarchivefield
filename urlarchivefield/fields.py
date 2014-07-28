@@ -94,6 +94,17 @@ class URLArchiveFieldFile(FieldFile):
             return self.read()
     archive_html = property(_get_archive_html)
 
+    def _get_archive_obj(self):
+        """
+        Returns a storytracker object by rebuilding it out of the archive.
+        """
+        return storytracker.ArchivedURL(
+            self.archive_url, 
+            self.archive_timestamp, 
+            self.archive_html
+        )
+    archive_obj = property(_get_archive_obj)
+
 
 class URLArchiveFileDescriptor(FileDescriptor):
     """

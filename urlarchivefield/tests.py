@@ -3,6 +3,7 @@ import os
 import six
 import shutil
 import tempfile
+import storytracker
 from django.db import models
 from datetime import datetime
 from django.test import TestCase
@@ -45,6 +46,13 @@ program/2013/06/06/3a0c0da8-cebf-11e2-8845-d970ccb04497_story.html"
         self.assertTrue(os.path.exists(obj.archive.path))
         self.assertIsInstance(obj.archive.archive_url, six.string_types)
         self.assertIsInstance(obj.archive.archive_timestamp, datetime)
+        self.assertIsInstance(
+            obj.archive.archive_obj, storytracker.ArchivedURL
+        )
+        self.assertEqual(
+            obj.archive.archive_html,
+            obj.archive.archive_obj.html
+        )
         obj.archive.archive_html
         obj.archive = self.url2
         obj.save()
@@ -67,6 +75,9 @@ program/2013/06/06/3a0c0da8-cebf-11e2-8845-d970ccb04497_story.html"
         self.assertTrue(os.path.exists(obj.archive.path))
         self.assertIsInstance(obj.archive.archive_url, six.string_types)
         self.assertIsInstance(obj.archive.archive_timestamp, datetime)
+        self.assertIsInstance(
+            obj.archive.archive_obj, storytracker.ArchivedURL
+        )
         obj.archive.archive_html
 
     def test_compress(self):
