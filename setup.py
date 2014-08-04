@@ -36,7 +36,7 @@ setup(
     license='MIT',
     packages=('urlarchivefield',),
     install_requires=(
-        'storytracker==0.0.7',
+        'storytracker==0.0.8',
         'six>=1.7.2',
     ),
     cmdclass={'test': TestCommand}
