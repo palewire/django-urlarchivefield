@@ -37,7 +37,7 @@ setup(
     packages=('urlarchivefield',),
     install_requires=(
         'storytracker==0.0.6',
-        'six==1.7.2',
+        'six>=1.7.2',
     ),
     cmdclass={'test': TestCommand}
 )
