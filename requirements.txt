@@ -9,7 +9,7 @@ py==1.4.20
 pyflakes
 python-coveralls==2.4.2
 python-dateutil==2.2
-requests==2.3.0
+requests==2.20.0
 sh==1.09
 six==1.7.2
 storytracker==0.0.4
